@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>calaberas y bombas</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="game-container">
+    <canvas id="game"></canvas>
+
+    <div class="btns">
+      <button onclick="movimiento(event,'ArrowUp')" id="up">Arriba</button>
+      <button onclick="movimiento(event,'ArrowLeft')" id="left">Izquierda</button>
+      <button onclick="movimiento(event,'ArrowRight')" id="right">Derecha</button>
+      <button onclick="movimiento(event,'ArrowDown')" id="down">Abajo</button>
+    </div>
+
+    <div class="messags">
+      <p>Parrafo de ejemplo</p>
+      <p>Vidas: <span id="spanLives"></span></p>
+      <p>Tiempo: ⌚ <span id="spanTime"></span></p>
+      <p id="pRecord">record: 🏆 <span id="spanRecord"></span></p>
+    </div>
+  </div>
+
+  <script src="./maps.js"></script>
+  <script src="./game.js"></script>
+</body>
+</html>
