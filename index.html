@@ -8,6 +8,25 @@
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
+  <div id="modal-container">
+    <div class="modal-background">
+      <div class="modal">
+        <div id="message-container-win">
+          <h2>YOU WIN 🥇</h2>
+          <p>¡Play again and beat your score!</p>
+        </div>
+        <div id="message-container-lose">
+          <h2>GAME OVER ☠</h2>
+          <p>¡Try again and win!</p>
+        </div>
+        <div class="buttons-container">
+          <button id="playFinish">CLOSE</button>
+          <button id="playAgain">PLAY</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="game-container">
     <canvas id="game"></canvas>
 
@@ -19,7 +38,6 @@
     </div>
 
     <div class="messags">
-      <p>Parrafo de ejemplo</p>
       <p>Vidas: <span id="spanLives"></span></p>
       <p>Tiempo: ⌚ <span id="spanTime"></span></p>
       <p id="pRecord">record: 🏆 <span id="spanRecord"></span></p>

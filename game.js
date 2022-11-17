@@ -8,6 +8,12 @@ const spanLives = document.querySelector('#spanLives');
 const spanTime = document.querySelector('#spanTime');
 const spanRecord = document.querySelector('#spanRecord');
 const pRecord = document.querySelector('#pRecord');
+const modal = document.querySelector('#modal-container');
+const body = document.body;
+const playFinish = document.querySelector('#playFinish'); 
+const playAgain = document.querySelector('#playAgain');
+const messageWin = document.querySelector('#message-container-win');
+const messageLose = document.querySelector('#message-container-lose'); 
 
 let canvasSize;
 let elementsSize;
@@ -31,6 +37,23 @@ if(localStorage.getItem('record_time')) showRecordTime();
 
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
+
+modal.addEventListener('click',()=>{
+  modal.classList.remove('one');
+  modal.classList.add('out');
+  body.classList.remove('modal-active');
+});
+
+playAgain.addEventListener('click',()=>{
+  level = 0;
+  lives = 3;
+  timeStart = undefined;
+  showLives();  
+  playerPosition.x = undefined;
+  playerPosition.y = undefined;
+  startGame();
+});
+
 
 function setCanvasSize() {
   if (window.innerHeight > window.innerWidth) {
@@ -163,7 +186,6 @@ function moveRight() {
 function moveDown() {
   
   if ((playerPosition.y + elementsSize) > canvasSize) {
-    console.log('OUT');
   } else {
     playerPosition.y += elementsSize;
     startGame();
@@ -175,7 +197,8 @@ function levelWin(){
 }
 
 function gameWin() {
-  console.log('ganaste el juego');
+
+  showModal('win');
   clearInterval(timeInterval);
 
   const playerTime = Date.now() - timeStart;
@@ -189,16 +212,16 @@ function gameWin() {
 function levelFail(){
   lives--;
   if(lives <= 0) {
-    level = 0;
-    lives = 3;
-    timeStart = undefined;
+    showModal('lose');
+    clearInterval(timeInterval);
   }
 
   showLives();
-
+  
   playerPosition.x = undefined;
   playerPosition.y = undefined;
   startGame();
+
 }
 
 function showLives() {
@@ -213,4 +236,21 @@ function showRecordTime(){
   pRecord.style.visibility = "visible";
   spanRecord.innerHTML = localStorage.getItem('record_time');
   return;
+}
+
+function showModal(conclusion){
+  console.log(conclusion);
+  if(conclusion === 'win'){
+    messageWin.style.display = 'block';
+    messageLose.style.display = 'none';
+    console.log(conclusion);
+  } else {
+    messageWin.style.display = 'none';
+    messageLose.style.display = 'block';
+
+  }
+
+  modal.classList.remove('out');
+  modal.classList.add('one');
+  body.classList.add('modal-active');
 }
