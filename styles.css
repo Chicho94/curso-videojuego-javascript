@@ -30,7 +30,8 @@ canvas {
   justify-content: center;
   flex-wrap: wrap;
   margin: 0 auto;
-  width: 100%
+  width: 100%;
+  gap: 10px;
 }
 
 .btns > button {
@@ -40,11 +41,8 @@ canvas {
   font-family: inherit;
   margin: 0;
   padding: 5px 20px;
-  width: 100px
-}
-
-.btns > button:not(:last-child) {
-  margin-right: 10px
+  width: 150px;
+  font-size: 25px;
 }
 
 .messages {
@@ -168,6 +166,9 @@ html.modal-active, body.modal-active {
 }
 
 @media(max-width:440px) {
+  .btn-container__desktop{
+    display: none;
+  }
   button {
       margin-top: 25px
   }
@@ -175,5 +176,19 @@ html.modal-active, body.modal-active {
   #down {
       margin-left: 100%;
       margin-right: 100%
+  }
+  .btns > button {
+    width: 80px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #modal-container .modal-background .modal{ width: 80%;}
+}
+
+@media(min-width:441px){
+  .btn-container__mobile{
+    display: none;
   }
 }

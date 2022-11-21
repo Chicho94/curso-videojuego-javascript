@@ -22,6 +22,7 @@ let lives = 3;
 let timeStart;
 let timePlayer;
 let timeInterval;
+let bombExplodes = [];
 
 const playerPosition = {
   x: undefined,
@@ -47,6 +48,7 @@ modal.addEventListener('click',()=>{
 playAgain.addEventListener('click',()=>{
   level = 0;
   lives = 3;
+  bombExplodes = [];
   timeStart = undefined;
   showLives();  
   playerPosition.x = undefined;
@@ -96,16 +98,14 @@ function startGame() {
 
   mapRowCols.forEach((row, rowI) => {
     row.forEach((col, colI) => {
-      const emoji = emojis[col];
       let posX = elementsSize * (colI + 1);
       let posY = elementsSize * (rowI + 1);
+      let explode = bombExplodes.find((bomb)=> bomb?.positionX === posX && bomb?.positionY === posY);
+      const emoji = (explode) ? emojis['EXPLODE']: emojis[col];
 
-      if (col == 'O') {
-        if (!playerPosition.x && !playerPosition.y) {
+      if (col == 'O' && (!playerPosition.x && !playerPosition.y)) {
           playerPosition.x = posX;
           playerPosition.y = posY;
-
-        }
       } else if (col == 'I') {
         giftPosition.x = posX;
         giftPosition.y = posY;
@@ -140,7 +140,11 @@ function movePlayer() {
   });
   
   if (enemyCollision) {
+    const bombCOllision = {positionX: playerPosition.x, positionY: playerPosition.y};
+    bombExplodes.push(bombCOllision);
     levelFail();
+    
+    startGame();
   }
 
   game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
@@ -160,33 +164,26 @@ function moveByKeys(event) {
 
 }
 function moveUp() {
-  if ((playerPosition.y - elementsSize) < elementsSize) {
-    console.log('OUT');
-  } else {
+  if ((playerPosition.y - elementsSize) > elementsSize) {
     playerPosition.y -= elementsSize;
     startGame();
   }
 }
 function moveLeft() {
-  if ((playerPosition.x - elementsSize) < elementsSize) {
-    console.log('OUT');
-  } else {
+  if ((playerPosition.x - elementsSize) > elementsSize) {
     playerPosition.x -= elementsSize;
     startGame();
   }
 }
 function moveRight() {
-  if ((playerPosition.x + elementsSize) > canvasSize) {
-    console.log('OUT');
-  } else {
+  if ((playerPosition.x + elementsSize) < canvasSize) {
     playerPosition.x += elementsSize;
     startGame();
   }
 }
 function moveDown() {
   
-  if ((playerPosition.y + elementsSize) > canvasSize) {
-  } else {
+  if ((playerPosition.y + elementsSize) < canvasSize) {
     playerPosition.y += elementsSize;
     startGame();
   }
@@ -220,7 +217,6 @@ function levelFail(){
   
   playerPosition.x = undefined;
   playerPosition.y = undefined;
-  startGame();
 
 }
 
@@ -239,11 +235,9 @@ function showRecordTime(){
 }
 
 function showModal(conclusion){
-  console.log(conclusion);
   if(conclusion === 'win'){
     messageWin.style.display = 'block';
     messageLose.style.display = 'none';
-    console.log(conclusion);
   } else {
     messageWin.style.display = 'none';
     messageLose.style.display = 'block';
